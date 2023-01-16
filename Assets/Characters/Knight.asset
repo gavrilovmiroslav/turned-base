@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e699e3b3441bd9f489ef28afa30fb6fd, type: 3}
+  m_Name: Knight
+  m_EditorClassIdentifier: 
+  Kind: 102
+  Animation: {fileID: 9100000, guid: 69396ca04ee5e784b861c00fbd652361, type: 2}
+  ShadowSize: 1.6
+  ShadowOffset: 0.002
+  ColliderOffset: {x: 0, y: 0.05}
+  ColliderSize: 0.05

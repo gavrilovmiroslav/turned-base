@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Level
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Shadow
+  - Water
+  - UI
+  - Walls
+  - Creatures
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Dungeon
+    uniqueID: 649851203
+    locked: 0
+  - name: Shadow
+    uniqueID: 1392290205
+    locked: 0
+  - name: Characters
+    uniqueID: 1245621233
+    locked: 0
+  - name: Obstacle
+    uniqueID: 1176157441
+    locked: 0
+  - name: UI
+    uniqueID: 372740217
+    locked: 0
