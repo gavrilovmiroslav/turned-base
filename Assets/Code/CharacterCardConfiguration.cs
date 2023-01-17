@@ -16,6 +16,48 @@ public enum Ability
                   //  Magic happens, they are also targetted
 }
 
+public static class AbilityExtensions
+{
+    public static IEnumerator Perform(this Ability ability, Character character)
+    {
+        switch(ability)
+        {
+            case Ability.None: 
+            case Ability.Damage: 
+            case Ability.Loot:
+            case Ability.Shield:
+            case Ability.Healing:
+            case Ability.Skill:
+            case Ability.Magic:
+            default:
+                yield return new WaitForSeconds(0.5f);
+                break;
+        }
+    }
+
+    public static bool ShouldApply(this Ability ability, Character a, Character b)
+    { 
+        switch (ability)
+        {
+            case Ability.None: 
+                return false;
+
+            case Ability.Damage: 
+            case Ability.Loot:
+                return a.Side != b.Side;
+
+            case Ability.Shield:
+            case Ability.Healing:
+                return a.Side == b.Side;
+
+            case Ability.Skill:
+            case Ability.Magic:
+            default:
+                return true;
+        }
+    }
+}
+
 public enum Kind
 {                   // H   M   E
     Goblin = 0,     // 1   1   2/3
@@ -65,7 +107,9 @@ public static class CharacterCardConfiguration
     {
         CharacterTemplate template = new();        
 
-        int kindPoints = Random.Range(0, System.Math.Min(4, n / 2));
+        int kindPoints = Random.Range(0, n / 2);
+        if (kindPoints > (int)Kind.Demon)
+            kindPoints = (int)Kind.Demon;
         n -= kindPoints;
         
         var kind = (Kind)kindPoints;
@@ -92,28 +136,31 @@ public static class CharacterCardConfiguration
         template.Health = health;
         template.Moves = moves;
 
-        var energyCount = energy[Random.Range(0, energy.Count)] + (n - kindPoints);
+        var energyCount = energy[Random.Range(0, energy.Count)];
         var abilityCount = maxAbilities[Random.Range(0, maxAbilities.Count)];
 
         for (int i = 0; i < abilityCount; i++)
         {
-            foreach (var ab in new Ability[] { Ability.Magic, Ability.Skill, Ability.Loot, Ability.Shield, Ability.Healing, Ability.Damage, Ability.None })
+            if (Random.Range(0.0f, 1.0f) > 0.1f)
             {
-                if (Random.Range(0.0f, 1.0f) > 0.5f && (int)ab <= energyCount)
+                foreach (var ab in new Ability[] { Ability.Magic, Ability.Skill, Ability.Loot, Ability.Shield, Ability.Healing, Ability.Damage, Ability.None })
                 {
-                    switch (i)
+                    if (Random.Range(0.0f, 1.0f) > 0.5f && (int)ab <= energyCount)
                     {
-                        case 0: template.Ability1 = ab; break;
-                        case 1: template.Ability2 = ab; break;
-                        case 2: template.Ability3 = ab; break;
+                        switch (i)
+                        {
+                            case 0: template.Ability1 = ab; break;
+                            case 1: template.Ability2 = ab; break;
+                            case 2: template.Ability3 = ab; break;
+                        }
+                        energyCount -= (int)ab;
+                        break;
                     }
-                    energyCount -= (int)ab;
-                    break;
                 }
             }
         }
 
-        template.Gold = energyCount;
+        template.Gold = n;
         return template;
     }
 }

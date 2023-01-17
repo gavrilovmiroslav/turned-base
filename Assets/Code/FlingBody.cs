@@ -7,6 +7,7 @@ public class FlingBody : MonoBehaviour
     public bool IsStatic = false;
     public Vector2 Speed = Vector2.zero;
 
+    
     private Collider2D _Collider;
     private List<RaycastHit2D> _Hits = new();
     private ContactFilter2D _Filter;
@@ -51,7 +52,7 @@ public class FlingBody : MonoBehaviour
                 _Collider.Cast(ds, _Filter, _Hits, ds.magnitude, false);
                 foreach (var hit in _Hits)
                 {
-                    FlingPhysics.GetInstance().HitDetected(hit, this.gameObject, hit.collider.gameObject);                    
+                    FlingPhysics.GetInstance().HitDetected(hit, this.gameObject, hit.collider.gameObject);
                 }
             }
 

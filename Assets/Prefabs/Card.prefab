@@ -1062,9 +1062,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Content: {fileID: 2838586781227837938}
-  Ability_Icon1: {fileID: 4556632728891332889}
+  Ability_Icon1: {fileID: 6289060597309555606}
   Ability_Icon2: {fileID: 3002045332737802625}
-  Ability_Icon3: {fileID: 6289060597309555606}
+  Ability_Icon3: {fileID: 4556632728891332889}
   TitleText: {fileID: 5655180039353782282}
   HealthText: {fileID: 8564790006914513469}
   MovesText: {fileID: 4711312888420073945}

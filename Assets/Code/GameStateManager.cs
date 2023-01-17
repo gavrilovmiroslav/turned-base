@@ -8,6 +8,7 @@ using UnityEngine;
 public class GameStateManager : MonoSingleton<GameStateManager>
 {
     private StateMachine _StateMachine;
+    public int Difficulty;
     public Level[] Levels;
 
     public void Start() 
@@ -42,7 +43,7 @@ public class GameStateManager : MonoSingleton<GameStateManager>
         var level = levelInstance.GetComponent<Level>();
         
         var enemies = new List<CharacterTemplate>();
-        CharacterCardConfiguration.CreateTeam(30, level.FoePositions.childCount, ref enemies);
+        CharacterCardConfiguration.CreateTeam(Difficulty, level.FoePositions.childCount, ref enemies);
 
         var enemySpawnPoints = new List<Vector3>();
         for (int i = 0; i < level.FoePositions.childCount; i++)

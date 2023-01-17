@@ -54,13 +54,16 @@ public class TurnStateManager : MonoSingleton<TurnStateManager>
     {
         if (Current != null)
         {
+            FlingPhysics.GetInstance().OnHitDetected -= Current.OnHit;
             Current.Visual.GetComponent<SpriteOutline>().directions = SpriteOutline.Directions.OFF;
             AlreadyGone.Enqueue(Current);
         }
 
         Current = GoingNext.Dequeue();
+        CharacterManager.GetInstance().ResetHitStreak();
+        FlingPhysics.GetInstance().OnHitDetected += Current.OnHit;
+        StartCoroutine(CharacterCard.GetInstance().WaitForViewUpdate(Current));
         yield return CameraPan.GetInstance().PanTo(Current.transform.position);
-        CharacterCard.GetInstance().UpdateView(Current);
         yield return new WaitForSeconds(0.3f);
         Current.Visual.GetComponent<SpriteOutline>().directions = SpriteOutline.Directions.ON;
 
@@ -74,6 +77,21 @@ public class TurnStateManager : MonoSingleton<TurnStateManager>
 
     public void TurnState_OnCheckEnd()
     {
+        StartCoroutine(DoAbilities());
+    }
+
+    public IEnumerator DoAbilities()
+    {
+        foreach (var character in Character.GetAllCharacters())
+        {
+            while (character.AppliedAbilities.Count > 0)
+            {
+                var ability = character.AppliedAbilities[0];
+                character.AppliedAbilities.RemoveAt(0);
+                yield return ability.Perform(character);
+                character.GetComponentInChildren<CharacterHUD>().UpdateView();
+            }
+        }
         _StateMachine.TriggerByLabel("on_pick_next");
     }
 

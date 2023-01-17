@@ -15,7 +15,7 @@ public class FoeFlingController : AbstractFlingController
         var body = GetComponent<FlingBody>();
         if (body != null)
         {
-            body.SetSpeed(Random.insideUnitCircle.normalized * 10);
+            body.SetSpeed(Random.insideUnitCircle.normalized * 20);
         }
 
         yield return new WaitForSeconds(0.5f);

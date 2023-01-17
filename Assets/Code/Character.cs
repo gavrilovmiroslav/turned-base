@@ -35,6 +35,8 @@ public class Character : MonoBehaviour
     public Kind Kind { get { return _Kind; } }
     public CombatSide Side { get { return _Side; } }
 
+    public List<Ability> AppliedAbilities = new();
+
     public int Health
     {
         get { return _Health; }
@@ -127,6 +129,58 @@ public class Character : MonoBehaviour
             _SpriteRenderer.flipX = _Side == CombatSide.Foe;
 
             _Animator.runtimeAnimatorController = Configuration.Animation;
+        }
+    }
+
+    public void AddAppliedAbility(Ability ability)
+    {
+        AppliedAbilities.Add(ability);
+        GetComponentInChildren<CharacterHUD>().UpdateView();
+    }
+
+    public void RemoveTopAbility()
+    {
+        AppliedAbilities.RemoveAt(0);
+        GetComponentInChildren<CharacterHUD>().UpdateView();
+    }
+
+    public void OnHit(GameObject a, GameObject b)
+    {
+        var ca = a.GetComponent<Character>();
+        var cb = b.GetComponent<Character>();
+
+        if (ca == this && cb != null)
+        {
+            int hit = CharacterManager.GetInstance().IncreaseHitStreak();
+            if (hit <= 3)
+            {
+                Ability ability = Ability.None;
+
+                switch(hit)
+                {
+                    case 1: ability = this.Template.Ability1; break;
+                    case 2: ability = this.Template.Ability2; break;
+                    case 3: ability = this.Template.Ability3; break;
+                }
+
+                if (ability != Ability.None) 
+                {
+                    if (ability.ShouldApply(ca, cb))
+                    {
+                        cb.AddAppliedAbility(ability);
+
+                        if (ability != Ability.Magic)
+                        { 
+                            foreach (var cursed in CharacterManager.GetInstance().Cursed) 
+                            {
+                                cursed.AddAppliedAbility(ability);
+                            }
+
+                            CharacterManager.GetInstance().Cursed.Clear();
+                        }
+                    }
+                }
+            }
         }
     }
 

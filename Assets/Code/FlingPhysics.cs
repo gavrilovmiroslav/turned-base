@@ -14,6 +14,9 @@ public struct FlingCollision
 public class FlingPhysics : MonoSingleton<FlingPhysics>
 {
     public FlingPhysicsConfiguration Configuration;
+    
+    public delegate void HitDetectedEvent(GameObject a, GameObject b);
+    public event HitDetectedEvent OnHitDetected;
 
     public readonly List<FlingBody> Bodies = new();
     public HashSet<FlingBody> Moving = new();
@@ -51,6 +54,7 @@ public class FlingPhysics : MonoSingleton<FlingPhysics>
 
         if (!RecentCollisions.Contains(hash))
         {
+            OnHitDetected?.Invoke(a, b);
             DisableCollision(fa, fb);
             StartCoroutine(HitReaction(hit, fa, fb));
         }

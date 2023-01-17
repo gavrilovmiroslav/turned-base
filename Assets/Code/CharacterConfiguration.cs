@@ -19,4 +19,7 @@ public class CharacterConfiguration : ScriptableObject
     [Header("Collider")]
     public Vector2 ColliderOffset;
     public float ColliderSize;
+
+    [Header("HUD")]
+    public Vector2 HUDOffset;
 }
