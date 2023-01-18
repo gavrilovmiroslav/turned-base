@@ -16,5 +16,8 @@ MonoBehaviour:
   Animation: {fileID: 9100000, guid: 4490d817439556e45af3f58061e87f20, type: 2}
   ShadowSize: 1.5
   ShadowOffset: -0.004
+  Jiggle: 0.75
+  Weight: 1
   ColliderOffset: {x: -0.005, y: 0.045}
   ColliderSize: 0.045
+  HUDOffset: {x: 0, y: 0}

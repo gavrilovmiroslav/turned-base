@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e699e3b3441bd9f489ef28afa30fb6fd, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
+  Kind: 0
   Animation: {fileID: 9100000, guid: 7a2f2a945a91f9d42be24530306e6afc, type: 2}
   ShadowSize: 1.5
   ShadowOffset: -0.008
+  Jiggle: 0.75
+  Weight: 1
   ColliderOffset: {x: -0.005, y: 0.045}
   ColliderSize: 0.045
-  Health: 1
-  Moves: 1
-  Side: 1
+  HUDOffset: {x: 0, y: 0}

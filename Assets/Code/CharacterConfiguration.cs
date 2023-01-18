@@ -15,6 +15,10 @@ public class CharacterConfiguration : ScriptableObject
     public RuntimeAnimatorController Animation;
     public float ShadowSize;
     public float ShadowOffset;
+    [Range(0f, 1f)]
+    public float Jiggle = 0.5f;
+    [Range(1, 3)]
+    public int Weight = 1;
 
     [Header("Collider")]
     public Vector2 ColliderOffset;

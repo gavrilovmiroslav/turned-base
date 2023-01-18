@@ -26,7 +26,11 @@ public class TurnStateManager : MonoSingleton<TurnStateManager>
 
     public IEnumerator StartTurnOrder()
     {
-        GoingNext = new Queue<Character>(Character.GetAliveCharacters());
+        var chars = Character.GetAliveCharacters();
+        foreach (var c in chars)
+            c.Moves = c.Template.Moves;
+
+        GoingNext = new Queue<Character>(chars);
         AlreadyGone = new Queue<Character>();
 
         yield return new WaitForSeconds(1.0f);
@@ -64,7 +68,7 @@ public class TurnStateManager : MonoSingleton<TurnStateManager>
         FlingPhysics.GetInstance().OnHitDetected += Current.OnHit;
         StartCoroutine(CharacterCard.GetInstance().WaitForViewUpdate(Current));
         yield return CameraPan.GetInstance().PanTo(Current.transform.position);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         Current.Visual.GetComponent<SpriteOutline>().directions = SpriteOutline.Directions.ON;
 
         _StateMachine.TriggerByLabel("on_play");
@@ -92,7 +96,19 @@ public class TurnStateManager : MonoSingleton<TurnStateManager>
                 character.GetComponentInChildren<CharacterHUD>().UpdateView();
             }
         }
-        _StateMachine.TriggerByLabel("on_pick_next");
+
+        Current.Moves -= 1;
+        CharacterCard.GetInstance().UpdateView(Current, false);
+        yield return new WaitForSeconds(1.0f);
+        if (Current.Moves > 0)
+        {
+            
+            _StateMachine.TriggerByLabel("on_play");
+        }
+        else
+        {
+            _StateMachine.TriggerByLabel("on_pick_next");            
+        }
     }
 
     public void TurnState_OnEnd()

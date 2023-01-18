@@ -162,11 +162,14 @@ public class Character : MonoBehaviour
                     case 2: ability = this.Template.Ability2; break;
                     case 3: ability = this.Template.Ability3; break;
                 }
+                
+                bool doesActivate = false;
 
                 if (ability != Ability.None) 
                 {
                     if (ability.ShouldApply(ca, cb))
                     {
+                        doesActivate = true;
                         cb.AddAppliedAbility(ability);
 
                         if (ability != Ability.Magic)
@@ -180,6 +183,8 @@ public class Character : MonoBehaviour
                         }
                     }
                 }
+
+                CharacterCard.GetInstance().ActivateAbility(hit, true, doesActivate);
             }
         }
     }
@@ -215,21 +220,21 @@ public class Character : MonoBehaviour
 
     public IEnumerator Stretch(Character ch)
     {
-        ch.StretchVisual(0.4f);
+        ch.StretchVisual(0.5f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
-        ch.StretchVisual(0.25f);
+        ch.StretchVisual(0.25f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
-        ch.StretchVisual(0.0f);
+        ch.StretchVisual(0.0f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
     }
 
     public IEnumerator Squash(Character ch)
     {
-        ch.SquashVisual(0.4f);
+        ch.SquashVisual(0.5f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
-        ch.SquashVisual(0.25f);
+        ch.SquashVisual(0.25f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
-        ch.SquashVisual(0.0f);
+        ch.SquashVisual(0.0f * ch.Configuration.Jiggle);
         yield return new WaitForSeconds(1.0f / 30.0f);
     }
 }

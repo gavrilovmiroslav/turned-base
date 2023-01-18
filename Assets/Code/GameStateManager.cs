@@ -27,7 +27,6 @@ public class GameStateManager : MonoSingleton<GameStateManager>
         yield return new WaitForSeconds(1.0f);
         yield return Transitioner.Instance.TransitionInCoroutine();
         _StateMachine.TriggerByLabel("on_start_game");
-        Debug.Log(TurnStateManager.GetInstance());
         TurnStateManager.GetInstance().TurnState_OnStart();
     }
 
@@ -36,6 +35,11 @@ public class GameStateManager : MonoSingleton<GameStateManager>
         foreach(var oldLevel in GameObject.FindGameObjectsWithTag("Level"))
         {
             Destroy(oldLevel.gameObject);
+        }
+
+        foreach(var player in GameObject.FindGameObjectsWithTag("Character"))
+        {
+            Destroy(player.gameObject);
         }
 
         var levelPrefab = Levels[Random.Range(0, Levels.Length)];
@@ -60,6 +64,7 @@ public class GameStateManager : MonoSingleton<GameStateManager>
             var instance = Instantiate(CharacterManager.GetInstance().CharacterPrefab, spawnPoint, Quaternion.identity);
             instance.GetComponent<Character>().Spawn(enemies[i], CombatSide.Foe);
         }
+
         StartCoroutine(ShowProgression());
     }
 
