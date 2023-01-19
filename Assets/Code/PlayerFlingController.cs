@@ -25,7 +25,7 @@ public class PlayerFlingController
         _Thinking = true;
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         if (!_Thinking) return;
 
@@ -37,12 +37,16 @@ public class PlayerFlingController
         Timer += Time.deltaTime;
         if (Timer >= 1.0f)
             Timer = 0.0f;
-
+        
         _InputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _InputPosition.z = 0.0f;
 
-        var indicators = SignFeedbackManager.GetInstance().InstantiatedFlingIndicatorDots;
-        var count = SignFeedbackManager.GetInstance().FlingIndicatorDotsCount;
+        Debug.Log($"Input: {_InputPosition}, mouse: {Input.mousePosition}, character: {this.transform.position}");
+
+        var feedbackManager = SignFeedbackManager.GetInstance();
+        var indicators = feedbackManager.InstantiatedFlingIndicatorDots;
+        var count = feedbackManager.FlingIndicatorDotsCount;
+        var distance = feedbackManager.FlingIndicatorDistance;
 
         if (!FlingInProgress)
         {
@@ -77,8 +81,8 @@ public class PlayerFlingController
 
             _AimingDistance = Vector3.Distance(pos, _InputPosition);
 
-            var min = 0.2f;
-            var max = 4.0f;
+            var min = 0.5f;
+            var max = 10.0f;
 
             var target = _InputPosition;
             if (_AimingDistance > max)
@@ -98,7 +102,7 @@ public class PlayerFlingController
                     if (visible)
                     {
                         var t = (i + Timer) * (1.0f / count);
-                        indicators[i].transform.position = _AimingRay.GetPoint(min + t);
+                        indicators[i].transform.position = _AimingRay.GetPoint(min + t * distance);
                         color.a = 1 - t;
                         indicators[i].GetComponent<SpriteRenderer>().color = color;
                     }

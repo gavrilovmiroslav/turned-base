@@ -5,15 +5,13 @@ using UnityEngine;
 
 public enum Ability
 {
-    None = 0,     // pushes around
-    Damage = 1,   // on hit, deals 1 damage to foe 
-    Healing = 2,  // on hit, heals 1 health to friend    
+    Hit = 0,      // on hit, deals 1 damage
+    Critical = 1, // on hit, deals N damage, where N is the number of useful moves
+    Healing = 2,  // on hit, heals 1 health to friend
     Shield = 3,   // on hit, gives +1 health to friend
     Loot = 4,     // every hit counts as +1 gold
-    Skill = 8,    // every 1 becomes N, where N is the number of hits
-    Magic = 10,   // on hit, marks the hit character (friend or foe)
-                  //  next time any effect except
-                  //  Magic happens, they are also targetted
+    Skill = 8,    // next turn, every 1 becomes N, where N is the number of useful moves
+    Curse = 10,   // ???
 }
 
 public static class AbilityExtensions
@@ -22,13 +20,13 @@ public static class AbilityExtensions
     {
         switch(ability)
         {
-            case Ability.None: 
-            case Ability.Damage: 
+            case Ability.Hit: 
+            case Ability.Critical: 
             case Ability.Loot:
             case Ability.Shield:
             case Ability.Healing:
             case Ability.Skill:
-            case Ability.Magic:
+            case Ability.Curse:
             default:
                 yield return new WaitForSeconds(0.5f);
                 break;
@@ -39,10 +37,10 @@ public static class AbilityExtensions
     { 
         switch (ability)
         {
-            case Ability.None: 
+            case Ability.Hit: 
                 return false;
 
-            case Ability.Damage: 
+            case Ability.Critical: 
             case Ability.Loot:
                 return a.Side != b.Side;
 
@@ -51,7 +49,7 @@ public static class AbilityExtensions
                 return a.Side == b.Side;
 
             case Ability.Skill:
-            case Ability.Magic:
+            case Ability.Curse:
             default:
                 return true;
         }
@@ -150,7 +148,7 @@ public static class CharacterCardConfiguration
         {
             if (Random.Range(0.0f, 1.0f) > 0.1f)
             {
-                foreach (var ab in new Ability[] { Ability.Magic, Ability.Skill, Ability.Loot, Ability.Shield, Ability.Healing, Ability.Damage, Ability.None })
+                foreach (var ab in new Ability[] { Ability.Curse, Ability.Skill, Ability.Loot, Ability.Shield, Ability.Healing, Ability.Critical, Ability.Hit })
                 {
                     if (Random.Range(0.0f, 1.0f) > 0.5f && (int)ab <= energyCount)
                     {

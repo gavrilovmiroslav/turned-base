@@ -57,11 +57,11 @@ public class CharacterCard : MonoSingleton<CharacterCard>
         MovesText.text = $"{character.Moves}";
         
         Ability_Icon1.sprite = GetIcon(character.Template.Ability1);
-        Ability_Icon1.color = (character.Template.Ability1 == Ability.None) ? DisabledColor : EnabledColor;
+        Ability_Icon1.color = (character.Template.Ability1 == Ability.Hit) ? DisabledColor : EnabledColor;
         Ability_Icon2.sprite = GetIcon(character.Template.Ability2);
-        Ability_Icon2.color = (character.Template.Ability2 == Ability.None) ? DisabledColor : EnabledColor;
+        Ability_Icon2.color = (character.Template.Ability2 == Ability.Hit) ? DisabledColor : EnabledColor;
         Ability_Icon3.sprite = GetIcon(character.Template.Ability3);
-        Ability_Icon3.color = (character.Template.Ability3 == Ability.None) ? DisabledColor : EnabledColor;
+        Ability_Icon3.color = (character.Template.Ability3 == Ability.Hit) ? DisabledColor : EnabledColor;
 
         if (character.Template.CarriedItem != null)
         {

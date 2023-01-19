@@ -6,6 +6,7 @@ public class SignFeedbackManager : MonoSingleton<SignFeedbackManager>
     [Header("Fling Indicator")]
     public GameObject FlingIndicatorDot;
     public int FlingIndicatorDotsCount = 10;
+    public float FlingIndicatorDistance = 0.5f;
     public List<GameObject> InstantiatedFlingIndicatorDots = new();
 
     public void Start()

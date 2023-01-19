@@ -162,7 +162,7 @@ public class Character : MonoBehaviour
             int hit = CharacterManager.GetInstance().IncreaseHitStreak();
             if (hit <= 3)
             {
-                Ability ability = Ability.None;
+                Ability ability = Ability.Hit;
 
                 switch(hit)
                 {
@@ -173,14 +173,14 @@ public class Character : MonoBehaviour
                 
                 bool doesActivate = false;
 
-                if (ability != Ability.None) 
+                if (ability != Ability.Hit) 
                 {
                     if (ability.ShouldApply(ca, cb))
                     {
                         doesActivate = true;
                         cb.AddAppliedAbility(ability);
 
-                        if (ability != Ability.Magic)
+                        if (ability != Ability.Curse)
                         { 
                             foreach (var cursed in CharacterManager.GetInstance().Cursed) 
                             {
