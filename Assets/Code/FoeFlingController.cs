@@ -16,7 +16,7 @@ public class FoeFlingController : AbstractFlingController
         var body = GetComponent<FlingBody>();
         if (body != null)
         {
-            body.SetSpeed(Random.insideUnitCircle.normalized * (10.0f / (float)GetComponent<Character>().Configuration.Weight));
+            body.SetSpeed(Random.insideUnitCircle.normalized * (10.0f / (float)Character.Configuration.Weight));
         }
 
         yield return CharacterCard.GetInstance().WaitForOffscreen();

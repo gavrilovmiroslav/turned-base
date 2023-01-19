@@ -19,6 +19,7 @@ public class CharacterCard : MonoSingleton<CharacterCard>
     public SpriteRenderer Ability_Icon1;
     public SpriteRenderer Ability_Icon2;
     public SpriteRenderer Ability_Icon3;
+    public SpriteRenderer ItemIcon;
 
     public TMPro.TextMeshPro TitleText; 
     public TMPro.TextMeshPro HealthText;
@@ -32,7 +33,7 @@ public class CharacterCard : MonoSingleton<CharacterCard>
     public Transform OffscreenPivot;
     public Transform OnscreenPivot;
     public Transform HiddenPivot;
-    public GameObject AbilityIconPrefab;
+    public GameObject AbilityIconPrefab;    
 
     public Sprite GetIcon(Ability ability)
     {
@@ -61,6 +62,15 @@ public class CharacterCard : MonoSingleton<CharacterCard>
         Ability_Icon2.color = (character.Template.Ability2 == Ability.None) ? DisabledColor : EnabledColor;
         Ability_Icon3.sprite = GetIcon(character.Template.Ability3);
         Ability_Icon3.color = (character.Template.Ability3 == Ability.None) ? DisabledColor : EnabledColor;
+
+        if (character.Template.CarriedItem != null)
+        {
+            ItemIcon.sprite = character.Template.CarriedItem.Image;
+        }
+        else
+        {
+            ItemIcon.sprite = null;
+        }
     }
 
     public IEnumerator WaitForViewHiding()

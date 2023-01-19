@@ -48,7 +48,7 @@ public class GameStateManager : MonoSingleton<GameStateManager>
         
         var enemies = new List<CharacterTemplate>();
         CharacterCardConfiguration.CreateTeam(Difficulty, level.FoePositions.childCount, ref enemies);
-
+        
         var enemySpawnPoints = new List<Vector3>();
         for (int i = 0; i < level.FoePositions.childCount; i++)
         {
@@ -64,6 +64,12 @@ public class GameStateManager : MonoSingleton<GameStateManager>
             var instance = Instantiate(CharacterManager.GetInstance().CharacterPrefab, spawnPoint, Quaternion.identity);
             instance.GetComponent<Character>().Spawn(enemies[i], CombatSide.Foe);
         }
+
+
+        var playerChar = CharacterCardConfiguration.CreateRandom(10);
+        playerChar.Kind = Kind.Necromancer;
+        var playerInstance = Instantiate(CharacterManager.GetInstance().CharacterPrefab, level.FriendPositions.GetChild(0).position, Quaternion.identity);
+        playerInstance.GetComponent<Character>().Spawn(playerChar, CombatSide.Friend);
 
         StartCoroutine(ShowProgression());
     }

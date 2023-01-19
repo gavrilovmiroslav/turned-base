@@ -98,6 +98,14 @@ public class Character : MonoBehaviour
         Moves = chr.Moves;
 
         GetAllComponents();
+        if (side == CombatSide.Friend)
+        {
+            this.gameObject.AddComponent<PlayerFlingController>();
+        }
+        else
+        {
+            this.gameObject.AddComponent<FoeFlingController>();
+        }
         SetupCharacter();
     }
 

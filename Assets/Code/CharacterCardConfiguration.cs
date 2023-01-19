@@ -72,6 +72,11 @@ public enum Kind
     Necromancer = 103,
 }
 
+public class Item
+{
+    public Sprite Image;
+}
+
 [System.Serializable]
 public struct CharacterTemplate
 {
@@ -84,6 +89,8 @@ public struct CharacterTemplate
     public Ability Ability1;
     public Ability Ability2;
     public Ability Ability3;
+
+    public Item CarriedItem;
 
     public override string ToString()
     {

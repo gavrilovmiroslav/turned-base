@@ -73,35 +73,38 @@ public class SpriteOutline : MonoBehaviour
 
     void UpdateProperties()
     {
-        Rect spriteRect = spriteRenderer.sprite.rect;
-        Vector2 pivot = spriteRenderer.sprite.pivot;
-        float pixelsPerUnit = spriteRenderer.sprite.pixelsPerUnit;
+        if (spriteRenderer.sprite != null)
+        {
+            Rect spriteRect = spriteRenderer.sprite.rect;
+            Vector2 pivot = spriteRenderer.sprite.pivot;
+            float pixelsPerUnit = spriteRenderer.sprite.pixelsPerUnit;
 
-        if (outlineColor == currentOutlineColor && spriteRect == currentRect && pivot == currentPivot &&
-            Mathf.Approximately(pixelsPerUnit, currentPixelsPerUnit) && directions.Equals(currentDirections))
-            return;
+            if (outlineColor == currentOutlineColor && spriteRect == currentRect && pivot == currentPivot &&
+                Mathf.Approximately(pixelsPerUnit, currentPixelsPerUnit) && directions.Equals(currentDirections))
+                return;
 
-        MaterialPropertyBlock properties = new MaterialPropertyBlock();
-        spriteRenderer.GetPropertyBlock(properties);
+            MaterialPropertyBlock properties = new MaterialPropertyBlock();
+            spriteRenderer.GetPropertyBlock(properties);
 
-        Vector4 vector = new Vector4(spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
-        properties.SetVector("_RectPosSize", vector);
-        properties.SetVector("_Pivot", pivot);
-        properties.SetFloat("_PixelsPerUnit", pixelsPerUnit);
-        properties.SetColor("_OutlineColor", enabled ? OutlineColor : Color.clear);
+            Vector4 vector = new Vector4(spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
+            properties.SetVector("_RectPosSize", vector);
+            properties.SetVector("_Pivot", pivot);
+            properties.SetFloat("_PixelsPerUnit", pixelsPerUnit);
+            properties.SetColor("_OutlineColor", enabled ? OutlineColor : Color.clear);
 
-        properties.SetFloat("_Top", directions.top ? 1 : 0);
-        properties.SetFloat("_Bottom", directions.bottom ? 1 : 0);
-        properties.SetFloat("_Left", directions.left ? 1 : 0);
-        properties.SetFloat("_Right", directions.right ? 1 : 0);
+            properties.SetFloat("_Top", directions.top ? 1 : 0);
+            properties.SetFloat("_Bottom", directions.bottom ? 1 : 0);
+            properties.SetFloat("_Left", directions.left ? 1 : 0);
+            properties.SetFloat("_Right", directions.right ? 1 : 0);
 
-        spriteRenderer.SetPropertyBlock(properties);
+            spriteRenderer.SetPropertyBlock(properties);
 
-        currentRect = spriteRect;
-        currentPivot = pivot;
-        currentPixelsPerUnit = pixelsPerUnit;
-        currentOutlineColor = outlineColor;
-        currentDirections = directions;
+            currentRect = spriteRect;
+            currentPivot = pivot;
+            currentPixelsPerUnit = pixelsPerUnit;
+            currentOutlineColor = outlineColor;
+            currentDirections = directions;
+        }
     }
 
     void OnDrawGizmosSelected()
